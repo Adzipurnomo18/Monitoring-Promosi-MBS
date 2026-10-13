@@ -7,6 +7,11 @@
 
     <title>Monitoring Promosi - Mitra Bangunan Supermarket</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-transparent.png') }}">
+
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,6 +94,50 @@
             background-position: bottom right;
             background-size: auto 100%;
         }
+
+        /* ============================================================== */
+        /* ENTERPRISE SCROLL & ENTRANCE ANIMATIONS */
+        /* ============================================================== */
+
+        /* Reveal Card on Scroll / Load */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger Delays */
+        .delay-75  { transition-delay: 75ms; }
+        .delay-150 { transition-delay: 150ms; }
+        .delay-225 { transition-delay: 225ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Animated Progress Bars with GPU Acceleration */
+        .progress-bar-animated,
+        .supplier-bar-animated {
+            width: 0% !important;
+            transition: width 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: width;
+        }
+
+        .is-visible .progress-bar-animated,
+        .is-visible .supplier-bar-animated {
+            width: var(--target-width, 0%) !important;
+        }
+
+        /* Canvas Chart Subtle Glow on Card Hover */
+        canvas {
+            transition: filter 0.3s ease;
+        }
+        .white-card:hover canvas {
+            filter: drop-shadow(0 2px 10px rgba(0, 112, 224, 0.08));
+        }
     </style>
 </head>
 <body class="h-full flex overflow-hidden text-slate-800 antialiased select-none">
@@ -98,10 +147,10 @@
     <!-- ============================================================== -->
     <aside class="w-64 bg-[#091122] flex flex-col justify-between shrink-0 select-none z-30 relative overflow-hidden border-r border-slate-800">
         
-        <!-- Store Facade Artwork in Lower Sidebar Background -->
-        <div class="absolute bottom-14 left-0 right-0 h-72 pointer-events-none overflow-hidden z-0">
-            <img src="{{ asset('images/sidebar-building-clean.png') }}" alt="" class="w-full h-full object-cover object-center opacity-85">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#060c18] via-transparent to-[#091122]"></div>
+        <!-- Store Facade Artwork in Lower Sidebar Background (Ultra HD, Harmonized with Header Angle) -->
+        <div class="absolute bottom-12 left-0 right-0 h-84 pointer-events-none overflow-hidden z-0">
+            <img src="{{ asset('images/sidebar-shadow-hd.png') }}" alt="" class="w-full h-full object-cover object-top opacity-90">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#060c18] via-transparent via-50% to-[#091122]"></div>
         </div>
 
         <!-- Upper Sidebar Menu Content -->
@@ -243,15 +292,15 @@
     <!-- ============================================================== -->
     <!-- 2. MAIN DASHBOARD CONTENT AREA -->
     <!-- ============================================================== -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#edf2f9]">
+    <div id="mainScrollContainer" class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#edf2f9]">
 
         <!-- ========================================================== -->
         <!-- TOP STORE HEADER BANNER -->
         <!-- ========================================================== -->
         <div class="relative w-full overflow-hidden bg-[#072147] min-h-[120px] flex items-center">
-            <!-- Background Store Facade Photo -->
+            <!-- Background Store Facade Photo (Ultra HD) -->
             <img 
-                src="{{ asset('images/banner-clean-final.jpg') }}" 
+                src="{{ asset('images/banner-clean-hd.jpg') }}" 
                 alt="Mitra Bangunan Supermarket" 
                 class="absolute inset-0 w-full h-full object-cover object-left md:object-center filter brightness-100"
             />
@@ -278,8 +327,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                         </svg>
                         <div class="text-right leading-tight">
-                            <div class="text-[11px] font-bold text-slate-900">Senin, 12 Oktober 2026</div>
-                            <div class="text-[10px] text-slate-500 font-medium">06:00 WIB</div>
+                            <div id="liveDate" class="text-[11px] font-bold text-slate-900 tabular-nums">
+                                {{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y') }}
+                            </div>
+                            <div id="liveTime" class="text-[10px] text-slate-500 font-medium tabular-nums">
+                                {{ \Carbon\Carbon::now()->format('H:i:s') }} WIB
+                            </div>
                         </div>
                     </div>
 
@@ -409,7 +462,7 @@
             <div id="kpiContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 
                 <!-- Card 1: Program Berjalan (Vibrant Royal Blue) -->
-                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#0072ea] to-[#0051ba] transition-all hover:-translate-y-1 hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#0072ea] to-[#0051ba] transition-all hover:-translate-y-1 hover:shadow-lg animate-on-scroll">
                     <!-- Glass Icon Box -->
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-xs">
@@ -421,7 +474,7 @@
 
                     <div class="mt-3">
                         <div class="text-xs text-blue-100 font-medium">Program berjalan</div>
-                        <div class="text-3xl sm:text-4xl font-extrabold text-white mt-1 tracking-tight">
+                        <div id="kpiProgramCount" class="text-3xl sm:text-4xl font-extrabold text-white mt-1 tracking-tight">
                             {{ $summary->total_program_berjalan }}
                         </div>
                         <div class="text-[11px] text-blue-100/90 mt-2 font-normal">
@@ -439,7 +492,7 @@
                 </div>
 
                 <!-- Card 2: Realisasi Belum Ditagih (Vibrant Emerald/Teal) -->
-                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#059669] to-[#047857] transition-all hover:-translate-y-1 hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#059669] to-[#047857] transition-all hover:-translate-y-1 hover:shadow-lg animate-on-scroll delay-75">
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-xs">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -464,7 +517,7 @@
                 </div>
 
                 <!-- Card 3: Tagihan Belum Lunas (Vibrant Coral/Orange) -->
-                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#f97316] to-[#ea580c] transition-all hover:-translate-y-1 hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#f97316] to-[#ea580c] transition-all hover:-translate-y-1 hover:shadow-lg animate-on-scroll delay-150">
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-xs">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -489,7 +542,7 @@
                 </div>
 
                 <!-- Card 4: Diterima Tahun 2026 (Vibrant Purple) -->
-                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#7c3aed] to-[#5b21b6] transition-all hover:-translate-y-1 hover:shadow-lg">
+                <div class="relative overflow-hidden rounded-2xl p-5 text-white shadow-md bg-gradient-to-br from-[#7c3aed] to-[#5b21b6] transition-all hover:-translate-y-1 hover:shadow-lg animate-on-scroll delay-225">
                     <div class="flex items-start justify-between">
                         <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-xs">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -533,13 +586,13 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
                 
                 <!-- Chart 1: Tren Nilai Program, Realisasi, Tagihan, Pembayaran (7 cols) -->
-                <div class="white-card p-5 lg:col-span-7 flex flex-col justify-between">
+                <div id="cardTrendContainer" class="white-card p-5 lg:col-span-7 flex flex-col justify-between animate-on-scroll">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2">
                                 <span class="w-6 h-6 rounded-lg bg-blue-50 text-[#0070e0] flex items-center justify-center">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125-0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                                     </svg>
                                 </span>
                                 <h3 class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
@@ -567,7 +620,7 @@
                 </div>
 
                 <!-- Chart 2: Distribusi Program per Tahap (Donut) (5 cols) -->
-                <div class="white-card p-5 lg:col-span-5 flex flex-col justify-between">
+                <div id="cardDonutContainer" class="white-card p-5 lg:col-span-5 flex flex-col justify-between animate-on-scroll delay-75">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2">
@@ -592,7 +645,7 @@
                             <div class="sm:col-span-6 relative flex items-center justify-center h-[240px]">
                                 <canvas id="donutChart"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span class="text-2xl font-extrabold text-slate-900 leading-tight">27</span>
+                                    <span id="donutCenterCount" class="text-2xl font-extrabold text-slate-900 leading-tight">27</span>
                                     <span class="text-[11px] font-semibold text-slate-500">Program</span>
                                 </div>
                             </div>
@@ -625,7 +678,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 
                 <!-- Card A: Realisasi vs Tagihan vs Pembayaran -->
-                <div class="white-card p-5">
+                <div id="cardComparisonContainer" class="white-card p-5 animate-on-scroll">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="w-6 h-6 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -644,9 +697,11 @@
                             <div class="text-[11px] text-slate-500 font-medium">Total Program</div>
                             <div class="text-sm font-extrabold text-[#0070e0] mt-0.5">Rp 1,25 M</div>
                             <div class="w-full bg-slate-100 rounded-full h-2 mt-3 overflow-hidden">
-                                <div class="bg-[#0070e0] h-full rounded-full transition-all duration-700" style="width: 100%;"></div>
+                                <div class="progress-bar-animated bg-[#0070e0] h-full rounded-full" style="--target-width: 100%;"></div>
                             </div>
-                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">100%</div>
+                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">
+                                <span class="progress-num-animated" data-target="100">0</span>%
+                            </div>
                         </div>
 
                         <!-- Realisasi -->
@@ -654,9 +709,11 @@
                             <div class="text-[11px] text-slate-500 font-medium">Realisasi</div>
                             <div class="text-sm font-extrabold text-[#10b981] mt-0.5">Rp 846,2 jt</div>
                             <div class="w-full bg-slate-100 rounded-full h-2 mt-3 overflow-hidden">
-                                <div class="bg-[#10b981] h-full rounded-full transition-all duration-700" style="width: 68%;"></div>
+                                <div class="progress-bar-animated bg-[#10b981] h-full rounded-full" style="--target-width: 68%; transition-delay: 100ms;"></div>
                             </div>
-                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">68%</div>
+                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">
+                                <span class="progress-num-animated" data-target="68">0</span>%
+                            </div>
                         </div>
 
                         <!-- Tagihan -->
@@ -664,9 +721,11 @@
                             <div class="text-[11px] text-slate-500 font-medium">Tagihan</div>
                             <div class="text-sm font-extrabold text-[#f97316] mt-0.5">Rp 723,1 jt</div>
                             <div class="w-full bg-slate-100 rounded-full h-2 mt-3 overflow-hidden">
-                                <div class="bg-[#f97316] h-full rounded-full transition-all duration-700" style="width: 58%;"></div>
+                                <div class="progress-bar-animated bg-[#f97316] h-full rounded-full" style="--target-width: 58%; transition-delay: 200ms;"></div>
                             </div>
-                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">58%</div>
+                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">
+                                <span class="progress-num-animated" data-target="58">0</span>%
+                            </div>
                         </div>
 
                         <!-- Pembayaran -->
@@ -674,15 +733,17 @@
                             <div class="text-[11px] text-slate-500 font-medium">Pembayaran</div>
                             <div class="text-sm font-extrabold text-[#7c3aed] mt-0.5">Rp 611,9 jt</div>
                             <div class="w-full bg-slate-100 rounded-full h-2 mt-3 overflow-hidden">
-                                <div class="bg-[#7c3aed] h-full rounded-full transition-all duration-700" style="width: 49%;"></div>
+                                <div class="progress-bar-animated bg-[#7c3aed] h-full rounded-full" style="--target-width: 49%; transition-delay: 300ms;"></div>
                             </div>
-                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">49%</div>
+                            <div class="text-right text-[10px] text-slate-400 font-semibold mt-1">
+                                <span class="progress-num-animated" data-target="49">0</span>%
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card B: Top 5 Supplier Belum Lunas -->
-                <div class="white-card p-5">
+                <div id="cardSupplierContainer" class="white-card p-5 animate-on-scroll delay-75">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="w-6 h-6 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -696,11 +757,11 @@
 
                     <!-- Horizontal Rose/Coral Bars (Inline Name - Bar - Value) -->
                     <div class="space-y-3 pt-1">
-                        @foreach ($supplierAr->take(5) as $supp)
+                        @foreach ($supplierAr->take(5) as $index => $supp)
                             <div class="flex items-center justify-between gap-2.5 text-xs">
                                 <span class="text-slate-600 font-medium text-[11px] w-28 truncate shrink-0">{{ $supp->nama_supplier }}</span>
                                 <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                                    <div class="bg-[#f43f5e] h-full rounded-full transition-all duration-700" style="width: {{ $supp->persentase_bar }}%;"></div>
+                                    <div class="supplier-bar-animated bg-[#f43f5e] h-full rounded-full" style="--target-width: {{ $supp->persentase_bar }}%; transition-delay: {{ $index * 90 }}ms;"></div>
                                 </div>
                                 <span class="font-extrabold text-slate-800 text-[11px] shrink-0 text-right w-16">Rp {{ number_format($supp->total_nilai / 1000000, 1, ',', '.') }} jt</span>
                             </div>
@@ -709,7 +770,7 @@
                 </div>
 
                 <!-- Card C: Umur Tagihan Belum Lunas (Vertical Bar Chart) -->
-                <div class="white-card p-5 flex flex-col justify-between">
+                <div id="cardAgingContainer" class="white-card p-5 flex flex-col justify-between animate-on-scroll delay-150">
                     <div>
                         <div class="flex items-center gap-2 mb-1">
                             <span class="w-6 h-6 rounded-lg bg-blue-50 text-[#0070e0] flex items-center justify-center">
@@ -740,7 +801,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
                 
                 <!-- Left: Perlu Tindakan (6 cols) -->
-                <div class="white-card p-5 lg:col-span-6 flex flex-col justify-between">
+                <div class="white-card p-5 lg:col-span-6 flex flex-col justify-between animate-on-scroll">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2">
@@ -775,7 +836,7 @@
                                 <tbody class="divide-y divide-slate-100">
                                     @foreach ($perluTindakan->take(5) as $pt)
                                         <tr class="hover:bg-slate-50 transition-colors">
-                                            <td class="py-2.5 px-2">
+                                             <td class="py-2.5 px-2">
                                                 <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-md
                                                     @if($pt->kategori === 'Kritis') bg-red-100 text-red-700
                                                     @elseif($pt->kategori === 'Penting') bg-orange-100 text-orange-700
@@ -806,7 +867,7 @@
                 </div>
 
                 <!-- Right: Ringkasan per Outlet (6 cols) -->
-                <div class="white-card p-5 lg:col-span-6 flex flex-col justify-between">
+                <div class="white-card p-5 lg:col-span-6 flex flex-col justify-between animate-on-scroll delay-75">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2">
@@ -877,6 +938,40 @@
         document.addEventListener('DOMContentLoaded', function () {
             
             // ----------------------------------------------------------
+            // 0. LIVE REAL-TIME CLOCK & CURRENT DATE (WIB)
+            // ----------------------------------------------------------
+            const liveDateElem = document.getElementById('liveDate');
+            const liveTimeElem = document.getElementById('liveTime');
+
+            function updateLiveClock() {
+                const now = new Date();
+                const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const months = [
+                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ];
+
+                const dayName = days[now.getDay()];
+                const dateNum = now.getDate();
+                const monthName = months[now.getMonth()];
+                const yearNum = now.getFullYear();
+
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                if (liveDateElem) {
+                    liveDateElem.textContent = `${dayName}, ${dateNum} ${monthName} ${yearNum}`;
+                }
+                if (liveTimeElem) {
+                    liveTimeElem.textContent = `${hours}:${minutes}:${seconds} WIB`;
+                }
+            }
+
+            updateLiveClock();
+            setInterval(updateLiveClock, 1000);
+
+            // ----------------------------------------------------------
             // 1. SWEETALERT LOGOUT CONFIRMATION
             // ----------------------------------------------------------
             const userProfileBtn = document.getElementById('userProfileBtn');
@@ -942,10 +1037,13 @@
                                 data: trendlineData,
                                 borderColor: '#f43f5e',
                                 backgroundColor: '#f43f5e',
-                                borderWidth: 2.2,
-                                tension: 0.4,
+                                borderWidth: 2.4,
+                                tension: 0.35,
                                 pointRadius: 3.5,
                                 pointHoverRadius: 6,
+                                pointBackgroundColor: '#ffffff',
+                                pointBorderColor: '#f43f5e',
+                                pointBorderWidth: 2,
                                 order: 1
                             },
                             {
@@ -953,7 +1051,7 @@
                                 label: 'Program',
                                 data: programData,
                                 backgroundColor: '#0070e0',
-                                borderRadius: 2,
+                                borderRadius: 3,
                                 barPercentage: 0.85,
                                 categoryPercentage: 0.85,
                                 order: 2
@@ -963,7 +1061,7 @@
                                 label: 'Realisasi',
                                 data: realisasiData,
                                 backgroundColor: '#10b981',
-                                borderRadius: 2,
+                                borderRadius: 3,
                                 barPercentage: 0.85,
                                 categoryPercentage: 0.85,
                                 order: 3
@@ -973,7 +1071,7 @@
                                 label: 'Tagihan',
                                 data: tagihanData,
                                 backgroundColor: '#f97316',
-                                borderRadius: 2,
+                                borderRadius: 3,
                                 barPercentage: 0.85,
                                 categoryPercentage: 0.85,
                                 order: 4
@@ -983,7 +1081,7 @@
                                 label: 'Pembayaran',
                                 data: pembayaranData,
                                 backgroundColor: '#c084fc',
-                                borderRadius: 2,
+                                borderRadius: 3,
                                 barPercentage: 0.85,
                                 categoryPercentage: 0.85,
                                 order: 5
@@ -993,6 +1091,17 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: {
+                            duration: 1400,
+                            easing: 'easeOutQuart',
+                            delay: (ctx) => {
+                                let delay = 0;
+                                if (ctx.type === 'data' && ctx.mode === 'default') {
+                                    delay = ctx.dataIndex * 35 + ctx.datasetIndex * 45;
+                                }
+                                return delay;
+                            }
+                        },
                         plugins: {
                             legend: { display: false },
                             tooltip: {
@@ -1052,6 +1161,12 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         cutout: '72%',
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true,
+                            duration: 1400,
+                            easing: 'easeOutCubic'
+                        },
                         plugins: {
                             legend: { display: false },
                             tooltip: {
@@ -1082,16 +1197,21 @@
                     id: 'barLabels',
                     afterDatasetsDraw(chart) {
                         const { ctx, data } = chart;
-                        chart.getDatasetMeta(0).data.forEach((bar, index) => {
+                        const meta = chart.getDatasetMeta(0);
+                        if (!meta || !meta.data) return;
+                        const yFloor = chart.scales.y ? chart.scales.y.getPixelForValue(0) : chart.chartArea.bottom;
+
+                        meta.data.forEach((bar, index) => {
                             const val = data.datasets[0].data[index];
-                            ctx.save();
-                            ctx.fillStyle = '#334155';
-                            ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
-                            ctx.textAlign = 'center';
-                            const text = 'Rp ' + (val > 0 ? val.toFixed(1).replace('.', ',') : '0') + ' jt';
-                            const yPos = val > 0 ? bar.y - 6 : bar.y - 6;
-                            ctx.fillText(text, bar.x, yPos);
-                            ctx.restore();
+                            if (bar.y < yFloor - 8) {
+                                ctx.save();
+                                ctx.fillStyle = '#334155';
+                                ctx.font = '600 9.5px Plus Jakarta Sans, sans-serif';
+                                ctx.textAlign = 'center';
+                                const text = 'Rp ' + (val > 0 ? val.toFixed(1).replace('.', ',') : '0') + ' jt';
+                                ctx.fillText(text, bar.x, bar.y - 6);
+                                ctx.restore();
+                            }
                         });
                     }
                 };
@@ -1117,6 +1237,17 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: {
+                            duration: 1300,
+                            easing: 'easeOutQuart',
+                            delay: (ctx) => {
+                                let delay = 0;
+                                if (ctx.type === 'data' && ctx.mode === 'default') {
+                                    delay = ctx.dataIndex * 130;
+                                }
+                                return delay;
+                            }
+                        },
                         layout: {
                             padding: {
                                 top: 20
@@ -1149,7 +1280,111 @@
             }
 
             // ----------------------------------------------------------
-            // 5. SKELETON LOADING ON DATA REFRESH / FILTER
+            // 5. ANIMATION ENGINE: COUNTERS, REVEALS & SCROLL OBSERVER
+            // ----------------------------------------------------------
+            function animateCounter(elem, target, suffix = '', duration = 1200) {
+                if (!elem) return;
+                let startTime = null;
+                const startVal = 0;
+                function updateCounter(now) {
+                    if (!startTime) startTime = now;
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+                    const current = Math.floor(startVal + (target - startVal) * ease);
+                    elem.textContent = current + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        elem.textContent = target + suffix;
+                    }
+                }
+                requestAnimationFrame(updateCounter);
+            }
+
+            function playTrendAnimation() {
+                if (trendChart) {
+                    trendChart.reset();
+                    trendChart.update();
+                }
+            }
+
+            function playDonutAnimation() {
+                if (donutChart) {
+                    donutChart.reset();
+                    donutChart.update();
+                }
+                const donutCount = document.getElementById('donutCenterCount');
+                if (donutCount) {
+                    animateCounter(donutCount, 27, '', 1400);
+                }
+            }
+
+            function playAgingAnimation() {
+                if (agingChart) {
+                    agingChart.reset();
+                    agingChart.update();
+                }
+            }
+
+            function playComparisonAnimation(container) {
+                if (!container) return;
+                container.querySelectorAll('.progress-num-animated').forEach(numElem => {
+                    const target = parseInt(numElem.dataset.target, 10) || 0;
+                    animateCounter(numElem, target, '', 1200);
+                });
+            }
+
+            // Initial counter animation for top KPI Card 1
+            const kpiCount = document.getElementById('kpiProgramCount');
+            if (kpiCount) {
+                animateCounter(kpiCount, 27, '', 1300);
+            }
+
+            // Setup IntersectionObserver for on-scroll animations
+            const mainScroll = document.getElementById('mainScrollContainer') || document.querySelector('.overflow-y-auto');
+            const animatedSections = document.querySelectorAll('.animate-on-scroll');
+
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const target = entry.target;
+                    if (entry.isIntersecting) {
+                        target.classList.add('is-visible');
+
+                        // Trigger corresponding graphic animation
+                        if (target.id === 'cardTrendContainer') {
+                            playTrendAnimation();
+                        } else if (target.id === 'cardDonutContainer') {
+                            playDonutAnimation();
+                        } else if (target.id === 'cardComparisonContainer') {
+                            playComparisonAnimation(target);
+                        } else if (target.id === 'cardAgingContainer') {
+                            playAgingAnimation();
+                        }
+                    } else if (entry.intersectionRatio <= 0) {
+                        // When element has completely left the viewport, remove is-visible
+                        // so it re-animates smoothly when scrolled back into view
+                        target.classList.remove('is-visible');
+
+                        if (target.id === 'cardComparisonContainer') {
+                            target.querySelectorAll('.progress-num-animated').forEach(numElem => {
+                                numElem.textContent = '0';
+                            });
+                        } else if (target.id === 'cardDonutContainer') {
+                            const donutCount = document.getElementById('donutCenterCount');
+                            if (donutCount) donutCount.textContent = '0';
+                        }
+                    }
+                });
+            }, {
+                root: mainScroll,
+                threshold: 0.15
+            });
+
+            animatedSections.forEach(section => scrollObserver.observe(section));
+
+            // ----------------------------------------------------------
+            // 6. SKELETON LOADING ON DATA REFRESH / FILTER
             // ----------------------------------------------------------
             const btnTerapkan = document.getElementById('btnTerapkan');
             const btnReset = document.getElementById('btnReset');
@@ -1188,10 +1423,15 @@
                         kpiContainer.classList.remove('hidden');
                     }
 
-                    // Re-render chart animations
-                    if (trendChart) trendChart.update();
-                    if (donutChart) donutChart.update();
-                    if (agingChart) agingChart.update();
+                    // Re-trigger all charts and numbers
+                    playTrendAnimation();
+                    playDonutAnimation();
+                    playAgingAnimation();
+                    playComparisonAnimation(document.getElementById('cardComparisonContainer'));
+
+                    if (kpiCount) {
+                        animateCounter(kpiCount, 27, '', 1200);
+                    }
 
                     Toast.fire({
                         icon: 'success',
@@ -1230,6 +1470,26 @@
                     });
                 });
             }
+
+            // ----------------------------------------------------------
+            // 7. WELCOME NOTIFICATION UPON LOGIN (FLASH SESSION)
+            // ----------------------------------------------------------
+            @if (session('status'))
+                const LoginToast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: 'rounded-2xl shadow-lg border border-slate-200'
+                    }
+                });
+                LoginToast.fire({
+                    icon: 'success',
+                    title: "{{ session('status') }}"
+                });
+            @endif
 
         });
     </script>

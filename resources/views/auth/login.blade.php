@@ -7,6 +7,11 @@
 
     <title>Masuk - Monitoring Promosi | Mitra Bangunan Supermarket</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo-transparent.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-transparent.png') }}">
+
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
