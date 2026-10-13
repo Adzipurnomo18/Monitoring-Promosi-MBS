@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+
+@source '../../resources/views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-mbs-blue: #0070e0;
+    --color-mbs-blue-dark: #0056b3;
+    --color-mbs-red: #e31e24;
+}
+
+/* Custom Smooth Animation Classes */
+@keyframes kenburns {
+    0% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1.0);
+    }
+}
+
+@keyframes slideLeftIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes cardFloatIn {
+    0% {
+        opacity: 0;
+        transform: translateY(45px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes ribbonDrop {
+    0% {
+        opacity: 0;
+        transform: translate(60px, -60px) rotate(42deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(42deg);
+    }
+}
+
+@keyframes shimmerPass {
+    0% {
+        transform: translateX(-150%) skewX(-20deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateX(250%) skewX(-20deg);
+        opacity: 0;
+    }
+}
+
+.animate-kenburns {
+    animation: kenburns 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+    animation: slideLeftIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-card-in {
+    animation: cardFloatIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.animate-ribbon {
+    animation: ribbonDrop 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.animate-shimmer {
+    animation: shimmerPass 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+/* Glassmorphism styling */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-panel:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.28);
+}
