@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,13 +35,18 @@ class AuthController extends Controller
             'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
-        $fieldType = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-        $remember = $request->boolean('remember');
+        $login = trim($credentials['login']);
+        $user = User::where('email', $login)
+            ->orWhere('name', $login)
+            ->orWhere('email', $login.'@mitrabangunan.com')
+            ->first();
 
         $attemptCredentials = [
-            $fieldType => $credentials['login'],
+            'email' => $user ? $user->email : $login,
             'password' => $credentials['password'],
         ];
+
+        $remember = $request->boolean('remember');
 
         if (Auth::attempt($attemptCredentials, $remember)) {
             $request->session()->regenerate();
