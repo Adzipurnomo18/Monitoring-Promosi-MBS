@@ -98,10 +98,10 @@
     <!-- ============================================================== -->
     <aside class="w-64 bg-[#091122] flex flex-col justify-between shrink-0 select-none z-30 relative overflow-hidden border-r border-slate-800">
         
-        <!-- Faded Store Facade Artwork in Lower Sidebar Background -->
-        <div class="absolute -bottom-6 -left-10 w-80 h-72 pointer-events-none opacity-15 overflow-hidden mix-blend-screen">
-            <img src="{{ asset('images/store-building.jpg') }}" alt="" class="w-full h-full object-cover rounded-3xl transform -rotate-12 scale-125 filter contrast-125">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#091122] via-[#091122]/60 to-transparent"></div>
+        <!-- Store Facade Artwork in Lower Sidebar Background -->
+        <div class="absolute bottom-14 left-0 right-0 h-72 pointer-events-none overflow-hidden z-0">
+            <img src="{{ asset('images/sidebar-building-clean.png') }}" alt="" class="w-full h-full object-cover object-center opacity-85">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#060c18] via-transparent to-[#091122]"></div>
         </div>
 
         <!-- Upper Sidebar Menu Content -->
@@ -243,21 +243,18 @@
     <!-- ============================================================== -->
     <!-- 2. MAIN DASHBOARD CONTENT AREA -->
     <!-- ============================================================== -->
-    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#f1f5f9]">
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto bg-[#edf2f9]">
 
         <!-- ========================================================== -->
         <!-- TOP STORE HEADER BANNER -->
         <!-- ========================================================== -->
-        <div class="relative w-full overflow-hidden bg-[#0a2347] min-h-[120px] flex items-center">
+        <div class="relative w-full overflow-hidden bg-[#072147] min-h-[120px] flex items-center">
             <!-- Background Store Facade Photo -->
             <img 
-                src="{{ asset('images/mitra-store-bright.jpg') }}" 
+                src="{{ asset('images/banner-clean-final.jpg') }}" 
                 alt="Mitra Bangunan Supermarket" 
-                class="absolute inset-0 w-full h-full object-cover object-[center_28%] filter brightness-95"
+                class="absolute inset-0 w-full h-full object-cover object-left md:object-center filter brightness-100"
             />
-            
-            <!-- Navy Blue Gradient Overlay: Solid on left for text readability, fading across center to show the building and sky -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#072147] via-[#092a5b]/90 via-35% to-transparent"></div>
 
             <!-- Header Content -->
             <div class="relative z-10 w-full px-6 sm:px-8 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
