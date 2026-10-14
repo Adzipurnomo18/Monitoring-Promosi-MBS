@@ -189,28 +189,28 @@
                     Transaksi
                 </div>
                 <nav class="space-y-1">
-                    <a href="{{ route('program.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('program.index') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm0 5.25h.007v.008H3.75V12zm0 5.25h.007v.008H3.75v-.008z" />
                         </svg>
                         <span>Program Promo</span>
                     </a>
 
-                    <a href="{{ route('program.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('program.create') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span>Buat Program</span>
                     </a>
 
-                    <a href="{{ route('realisasi.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('realisasi.index') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span>Realisasi &amp; Verifikasi</span>
                     </a>
 
-                    <a href="{{ route('tagihan.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('tagihan.index') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
@@ -225,28 +225,28 @@
                     Master Data
                 </div>
                 <nav class="space-y-1">
-                    <a href="{{ route('master.metode') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('master.metode') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                         </svg>
                         <span>Metode Kesepakatan</span>
                     </a>
 
-                    <a href="{{ route('master.event') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('master.event') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                         </svg>
                         <span>Event Promosi</span>
                     </a>
 
-                    <a href="{{ route('master.sarana') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('master.sarana') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.25A2.25 2.25 0 010 18.75V8.25A2.25 2.25 0 012.25 6h19.5A2.25 2.25 0 0124 8.25v10.5A2.25 2.25 0 0121.75 21h-4.5z" />
                         </svg>
                         <span>Sarana Promosi</span>
                     </a>
 
-                    <a href="{{ route('master.supplier') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
+                    <a href="{{ route('master.supplier') }}" class="sidebar-nav-link flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 font-medium text-xs transition-colors">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-4.243l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
                         </svg>
@@ -1490,6 +1490,22 @@
                     title: "{{ session('status') }}"
                 });
             @endif
+
+            // Sidebar navigation click skeleton transition
+            document.querySelectorAll('.sidebar-nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const href = this.getAttribute('href');
+                    if (href && !href.startsWith('#') && href !== window.location.href) {
+                        const kpiContainer = document.getElementById('kpiContainer');
+                        const kpiSkeleton = document.getElementById('kpiSkeleton');
+                        if (kpiContainer && kpiSkeleton) {
+                            kpiContainer.classList.add('hidden');
+                            kpiSkeleton.classList.remove('hidden');
+                        }
+                    }
+                });
+            });
+
 
         });
     </script>
